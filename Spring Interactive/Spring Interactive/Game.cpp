@@ -134,10 +134,23 @@ void Game::update(sf::Time t_deltaTime)
 		if (m_wait > 0)
 		{
 			m_wait--;
+			std::cout << m_wait << std::endl;
 		}
 		if (m_wait == 0)
 		{
 			m_delay = true;
+		}
+	}
+	if (m_game)
+	{
+		if (m_wait > 0)
+		{
+			m_wait--;
+			std::cout << m_wait << std::endl;
+		}
+		if (m_wait == 0)
+		{
+			//m_delay = true;
 		}
 	}
 }
@@ -174,11 +187,10 @@ void Game::render()
 		m_window.draw(m_medium);
 		m_window.draw(m_hard);
 		m_window.draw(m_back);
-			
 	}
 	if (m_game)
 	{
-		m_window.draw(m_startGame);
+		
 	}
 
 	m_window.display();
@@ -297,12 +309,9 @@ void Game::setupHitboxes()
 	m_backHitbox.setPosition(450.0f, 700.0f);
 	m_backHitbox.setSize(sf::Vector2f{ 150.0f,70.0f });
 
-	if (m_delay)
-	{
-		m_easyHitbox.setFillColor(sf::Color::Green);
-		m_easyHitbox.setPosition(450.0f, 200.0f);
-		m_easyHitbox.setSize(sf::Vector2f{ 120.0f,70.0f });
-	}
+	m_easyHitbox.setFillColor(sf::Color::Green);
+	m_easyHitbox.setPosition(450.0f, 200.0f);
+	m_easyHitbox.setSize(sf::Vector2f{ 120.0f,70.0f });
 
 	m_mediumHitbox.setFillColor(sf::Color::Blue);
 	m_mediumHitbox.setPosition(450.0f, 350.0f);
@@ -381,7 +390,15 @@ void Game::mouseClick(sf::Event t_event)
 	
 	m_mouseClick.x = static_cast<float>(t_event.mouseButton.x);
 	m_mouseClick.y = static_cast<float>(t_event.mouseButton.y);
-	m_wait = 180;
+	
+	if (m_difficulty)
+	{
+		m_wait = 5;
+	}
+	if (m_game)
+	{
+		m_wait = 20;
+	}
 
 	
 
@@ -445,12 +462,26 @@ void Game::mouseRelease(sf::Event t_event)
 		}
 		if (m_difficulty)
 		{
-			if (m_easyHitbox.getGlobalBounds().intersects(m_mouseTracker.getGlobalBounds()))
+			if (m_delay)
 			{
-				m_game = true;
-				m_difficulty = false;
+				if (m_easyHitbox.getGlobalBounds().intersects(m_mouseTracker.getGlobalBounds()))
+				{
+					m_game = true;
+					m_difficulty = false;
 
+				}
+				if (m_mediumHitbox.getGlobalBounds().intersects(m_mouseTracker.getGlobalBounds()))
+				{
+					m_game = true;
+					m_difficulty = false;
+				}
+				if (m_hardHitbox.getGlobalBounds().intersects(m_mouseTracker.getGlobalBounds()))
+				{
+					m_game = true;
+					m_difficulty = false;
+				}
 			}
+
 		}
 	}
 }

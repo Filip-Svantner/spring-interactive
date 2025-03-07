@@ -85,9 +85,13 @@ private:
 	sf::Text m_back; // text for back button
 	sf::RectangleShape m_backHitbox; // hitbox used to track collision with mouse
 
-	int m_wait = 0;
-	bool m_delay = false;
+	int m_wait = 0; // variable used for delay
+	bool m_delay = false; // checks if delay happened
 	
+	//gameplay
+	sf::CircleShape m_targetHitbox;
+	sf::Sprite m_targetSprite;
+	sf::Texture m_targetTexture;
 
 	bool m_highScoreScreen = false; // checks if we are in high score screen
 	bool m_controlsScreen = false; // checks if we are in controls screen
